@@ -4,11 +4,8 @@
 git clone git@github.com:haproxy/haproxy.git
 
 docker run --rm -it -v $(pwd)/haproxy:/usr/src/haproxy vkill/haproxy2-dev:alpine sh
-
-> eval "make -C /usr/src/haproxy -j 2 all $makeOpts"
-> eval "make install-bin $makeOpts"
-
-> HAPROXY_PROGRAM=/usr/local/sbin/haproxy vtest reg-tests/converter/sha2.vtc
+> eval "make -j 2 all $makeOpts"
+> vtest reg-tests/converter/sha2.vtc
 ```
 
 ## Ref

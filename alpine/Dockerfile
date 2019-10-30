@@ -6,24 +6,24 @@ RUN set -x \
     \
     && apk add --no-cache --virtual .haproxy-build-deps \
         ca-certificates \
-		gcc \
-		libc-dev \
-		linux-headers \
-		lua5.3-dev \
-		make \
-		openssl \
-		openssl-dev \
-		pcre2-dev \
-		readline-dev \
-		tar \
-		zlib-dev \
+        gcc \
+        libc-dev \
+        linux-headers \
+        lua5.3-dev \
+        make \
+        openssl \
+        openssl-dev \
+        pcre2-dev \
+        readline-dev \
+        tar \
+        zlib-dev \
     \
     && apk add --no-cache --virtual .vtest-run-deps \
         pcre-dev \
+        varnish-dev \
     \
     && apk add --no-cache --virtual .vtest-build-deps \
         python3 \
-        varnish-dev \
     \
     && wget -O varnish.tar.gz https://github.com/varnishcache/varnish-cache/archive/varnish-6.3.1.tar.gz \
     && mkdir -p /usr/src/varnish \
@@ -63,5 +63,6 @@ ENV makeOpts ' \
         contrib/prometheus-exporter/service-prometheus.o \
     " \
 '
+ENV HAPROXY_PROGRAM /usr/src/haproxy/haproxy
 
 WORKDIR /usr/src/haproxy
