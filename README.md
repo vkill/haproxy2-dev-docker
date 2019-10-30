@@ -2,8 +2,9 @@
 
 ```
 git clone git@github.com:haproxy/haproxy.git
+cd haproxy
 
-docker run --rm -it -v $(pwd)/haproxy:/usr/src/haproxy vkill/haproxy2-dev:alpine sh
+docker run --rm -it -v $(pwd):/usr/src/haproxy vkill/haproxy2-dev:alpine sh
 > eval "make -j 2 all $makeOpts"
 > vtest reg-tests/converter/sha2.vtc
 ```
