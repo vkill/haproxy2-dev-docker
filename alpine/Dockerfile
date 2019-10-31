@@ -1,31 +1,22 @@
 # vim:set ft=dockerfile:
 FROM alpine:3.10
 
+ARG VARNISH_VERSION="6.2.1"
+
 RUN set -x \
     # && sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
     \
-    && apk add --no-cache --virtual .haproxy-build-deps \
-        ca-certificates \
-        gcc \
-        libc-dev \
-        linux-headers \
-        lua5.3-dev \
-        make \
-        openssl \
-        openssl-dev \
-        pcre2-dev \
-        readline-dev \
-        tar \
-        zlib-dev \
-    \
     && apk add --no-cache --virtual .vtest-run-deps \
         pcre-dev \
-        varnish-dev \
+        varnish-dev=${VARNISH_VERSION}-r0 \
     \
     && apk add --no-cache --virtual .vtest-build-deps \
+        make \
         python3 \
+        zlib-dev \
+        linux-headers \
     \
-    && wget -O varnish.tar.gz https://github.com/varnishcache/varnish-cache/archive/varnish-6.3.1.tar.gz \
+    && wget -O varnish.tar.gz https://github.com/varnishcache/varnish-cache/archive/varnish-$VARNISH_VERSION.tar.gz \
     && mkdir -p /usr/src/varnish \
 	&& tar -xzf varnish.tar.gz -C /usr/src/varnish --strip-components=1 \
 	&& rm varnish.tar.gz \
@@ -45,6 +36,25 @@ RUN set -x \
     && mv /usr/src/VTest/varnishtest /usr/local/bin \
     && rm -rf /usr/src/varnish \
     && rm -rf /usr/src/VTest \
+    \
+    && echo
+
+RUN set -x \
+    # && sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
+    \
+    && apk add --no-cache --virtual .haproxy-build-deps \
+        ca-certificates \
+        gcc \
+        libc-dev \
+        linux-headers \
+        lua5.3-dev \
+        make \
+        openssl \
+        openssl-dev \
+        pcre2-dev \
+        readline-dev \
+        tar \
+        zlib-dev \
     \
     && mkdir -p /usr/src/haproxy \
     \
